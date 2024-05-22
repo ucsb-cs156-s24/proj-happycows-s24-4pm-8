@@ -110,7 +110,7 @@ function App() {
                     {homeRoute}
                     {adminRoutes}
                     {userRoutes}
-                    <Route path="*" element={<NotFoundPage />} />
+                    <Route path="/notfound" element={<NotFoundPage />} />
                 </Routes>
             )}
         </BrowserRouter>
