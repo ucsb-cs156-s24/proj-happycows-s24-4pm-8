@@ -8,7 +8,6 @@ import { useCurrentUser } from "main/utils/currentUser";
 
 const useUserInCommons = (commonsId) => {
 
-    // these lines are defining commonsjoined and setCommonsJoined
     // Stryker disable next-line all: it is acceptable to exclude useState calls from mutation testing
     const [commonsJoined, setCommonsJoined] = useState([]);
     const { data: currentUser } = useCurrentUser();
@@ -27,12 +26,17 @@ const useUserInCommons = (commonsId) => {
         }
         }, [currentUser]);
 
-    // create the not joined list to reference 
+
     const commonsNotJoinedList = commonsNotJoined(commons, commonsJoined); // - FAILING HERE, LIST IS EMPTY
     console.log('Commons not joined:', commonsNotJoinedList);
 
-    // return true if joined, false if not joined - 
-    const isInCommons = !commonsNotJoinedList.includes(commonsId);
+    let isInCommons = true;
+    for (let i = 0; i < commonsNotJoinedList.length; i++) {
+        if (commonsNotJoinedList[i].id == commonsId) {
+            isInCommons = false;
+        }
+    }
+    //const isInCommons = commonsNotJoinedList.some(map => map.id === commonsId)
     console.log('Is in commons:', isInCommons);
 
     return isInCommons;
@@ -42,9 +46,9 @@ const useUserInCommons = (commonsId) => {
 const ProtectedRoute = ({ element: Component }) => { 
     const { commonsId } = useParams();
     const isInCommons = useUserInCommons(commonsId);
-    //console.log('is in commons:', isInCommons);
-
+    //console.log('is in commons: KJWBEFGLJBHWGLJHB', isInCommons);
     if (!isInCommons) {
+        //console.log("inside if statement---------s;kdjfn;aijbdiabjwgoi'jba");
         return <Navigate to="/notfound" replace />;
     }
 
