@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-s24/proj-happycows-s24-4pm-8
 owner: ucsb-cs156-s24
 repo_name: proj-happycows-s24-4pm-8
-pull_requests: [{"author":{"id":"U_kgDOBdHsdg","is_bot":false,"login":"charlene-patenaude","name":""},"headRefName":"cp-UIRefractor","number":13,"title":"Cp UI refractor","url":"https://github.com/ucsb-cs156-s24/proj-happycows-s24-4pm-8/pull/13"}]
+pull_requests: [{"author":{"id":"MDQ6VXNlcjYxMzA2Mzkw","is_bot":false,"login":"Jumshim","name":"jeffmun"},"headRefName":"7-JeffreyCommitTracking","number":14,"title":"JM - Commit Tracking Infrastructure Setup: Dockerfile, SystemInfo, pom.xml - [Backend]","url":"https://github.com/ucsb-cs156-s24/proj-happycows-s24-4pm-8/pull/14"},{"author":{"id":"U_kgDOBdHsdg","is_bot":false,"login":"charlene-patenaude","name":""},"headRefName":"cp-UIRefractor","number":13,"title":"Cp UI refractor","url":"https://github.com/ucsb-cs156-s24/proj-happycows-s24-4pm-8/pull/13"}]
