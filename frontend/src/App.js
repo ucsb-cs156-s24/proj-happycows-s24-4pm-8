@@ -62,8 +62,7 @@ function App() {
             />
             <Route 
                 path="/play/:commonsId" 
-                // element={<PlayPage />} 
-                element={<ProtectedRoute element={PlayPage} currentUser={currentUser} />}
+                element={<ProtectedRoute element={PlayPage} />}
             />
         </>
     ) : null;
