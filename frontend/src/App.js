@@ -20,6 +20,8 @@ import PlayPage from "main/pages/PlayPage";
 import NotFoundPage from "main/pages/NotFoundPage";
 import AdminViewPlayPage from "main/pages/AdminViewPlayPage";
 
+import ProtectedRoute from "main/components/Commons/RouteGuard";
+
 function App() {
     const { data: currentUser } = useCurrentUser();
 
@@ -58,7 +60,11 @@ function App() {
                 path="/leaderboard/:commonsId"
                 element={<LeaderboardPage />}
             />
-            <Route path="/play/:commonsId" element={<PlayPage />} />
+            <Route 
+                path="/play/:commonsId" 
+                // element={<PlayPage />} 
+                element={<ProtectedRoute element={PlayPage} currentUser={currentUser} />}
+            />
         </>
     ) : null;
 
