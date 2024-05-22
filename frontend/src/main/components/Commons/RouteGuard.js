@@ -40,10 +40,11 @@ const useUserInCommons = (commonsId) => {
 };
 
 // this function will take in the page to deploy and info about current user in curuser object 
-const ProtectedRoute = ({ element: Component, currentUser }) => { 
+const ProtectedRoute = ({ element: Component }) => { 
     const { commonsId } = useParams();
+    const isInCommons = useUserInCommons(commonsId);
 
-    if (!useUserInCommons(currentUser, commonsId)) {
+    if (!isInCommons) {
         return <Navigate to="/notfound" replace />;
     }
 
