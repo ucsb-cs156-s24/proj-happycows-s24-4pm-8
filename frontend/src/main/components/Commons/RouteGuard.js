@@ -21,7 +21,7 @@ const useUserInCommons = (commonsId) => {
             setCommonsJoined(currentUser.root.user.commons);
         }
         }, [currentUser]
-    );
+    );//meow
 
     // Stryker disable all : it is acceptable to exclude useBackend calls from mutation testing
     // this is for commons ?
