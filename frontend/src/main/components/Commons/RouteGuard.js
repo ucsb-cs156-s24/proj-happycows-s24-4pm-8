@@ -1,6 +1,5 @@
 import React from "react";
 import { commonsNotJoined } from "main/utils/commonsUtils";
-// import NotFoundPage from "main/pages/NotFoundPage";
 import { useBackend } from "main/utils/useBackend";
 import { useParams, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -24,10 +23,10 @@ const useUserInCommons = (commonsId) => {
         if (currentUser?.root?.user?.commons) {
             setCommonsJoined(currentUser.root.user.commons);
         }
-        }, [currentUser]);
+    }, [currentUser]);
 
 
-    const commonsNotJoinedList = commonsNotJoined(commons, commonsJoined); // - FAILING HERE, LIST IS EMPTY
+    const commonsNotJoinedList = commonsNotJoined(commons, commonsJoined);
     console.log('Commons not joined:', commonsNotJoinedList);
 
     let isInCommons = true;
@@ -42,13 +41,10 @@ const useUserInCommons = (commonsId) => {
     return isInCommons;
 };
 
-// this function will take in the page to deploy and info about current user in curuser object 
 const ProtectedRoute = ({ element: Component }) => { 
     const { commonsId } = useParams();
     const isInCommons = useUserInCommons(commonsId);
-    //console.log('is in commons: KJWBEFGLJBHWGLJHB', isInCommons);
     if (!isInCommons) {
-        //console.log("inside if statement---------s;kdjfn;aijbdiabjwgoi'jba");
         return <Navigate to="/notfound" replace />;
     }
 
