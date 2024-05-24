@@ -41,14 +41,15 @@ const useUserInCommons = (commonsId) => {
     return isInCommons;
 };
 
-const ProtectedRoute = ({ element: Component }) => { 
+const CheckUserInCommons = ({ element: Component }) => { 
     const { commonsId } = useParams();
     const isInCommons = useUserInCommons(commonsId);
     if (!isInCommons) {
+        console.log('is in commons:', isInCommons);
         return <Navigate to="/notfound" replace />;
     }
 
     return <Component />;
 };
 
-export default ProtectedRoute;
+export default CheckUserInCommons;

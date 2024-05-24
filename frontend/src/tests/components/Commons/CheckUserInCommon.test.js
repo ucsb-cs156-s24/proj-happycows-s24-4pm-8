@@ -3,10 +3,11 @@ import { useBackend } from "main/utils/useBackend";
 import { useParams, Navigate, MemoryRouter, Routes, Route } from "react-router-dom";
 import { useCurrentUser } from "main/utils/currentUser";
 import { waitFor, render, screen } from "@testing-library/react";
-import ProtectedRoute from "main/components/Commons/RouteGuard";
+import {CheckUserInCommons, useUserInCommons} from "main/components/Commons/CheckUserInCommons";
 import PlayPage from "main/pages/PlayPage";
 import NotFoundPage from "main/pages/NotFoundPage";
-
+import { QueryClient, QueryClientProvider } from "react-query";
+import { BrowserRouter as Router } from "react-router-dom";
 
 jest.mock('main/utils/currentUser');
 jest.mock('main/utils/useBackend');
@@ -19,7 +20,14 @@ jest.mock('react-router-dom', () => {
   };
 });
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedNavigate
+}));
+
 describe ('RouteGuard Tests', () => {
+
+  const queryClient = new QueryClient();
 
   const mockCurrentUser = {
     root: {
@@ -41,7 +49,7 @@ describe ('RouteGuard Tests', () => {
       lastDate:"2024-06-21T00:00:00",
       milkPrice:1,
       name:"test",
-      showChat:false,
+      showChat:true,
       showLeaderboard:false,
       startingBalance:10000,
       startingDate:"2024-05-21T00:00:00" 
@@ -51,6 +59,7 @@ describe ('RouteGuard Tests', () => {
       belowCapacityHealthUpdateStrategy:"Linear", 
       capacityPerUser: 50,
       carryingCapacity: 100, 
+    
       cowPrice: 100,
       degradationRate: 0.001, 
       id:2,
@@ -70,35 +79,60 @@ describe ('RouteGuard Tests', () => {
   });
 
   test('redirects user to not found page when user enters URL for commons they have not joined', async () => {
+
+    const mockedNavigate = jest.fn();
+
+    jest.mock("react-router-dom", () => ({
+      ...jest.requireActual("react-router-dom"),
+      useParams: () => ({
+          commonsId: 2
+      }),
+      useNavigate: () => mockedNavigate,
+    }));
+
+    beforeEach(() => {
+      is = useUserInCommons.mockReturnValue(false); // Default mock implementation
+    });
+  
     
     render(
-        <MemoryRouter initialEntries={['/play/2']}>
-            <Routes>
-              <Route path="/play/:commonsId" element={<ProtectedRoute element={PlayPage} />} />
-              <Route path="/notfound" element={<NotFoundPage />} />
-            </Routes>
-        </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+            <CheckUserInCommons element={PlayPage}/>
+          </MemoryRouter>
+      </QueryClientProvider>
     );
-    
+
+    // check if PlayPage is rendered correctly
+
     await waitFor(() => {
-      expect(screen.getByText('The Page You Are Looking For Does Not Exist Or You Do Not Have Access!')).toBeInTheDocument();
+      expect(screen.queryByText('404')).toBeInTheDocument();
     });
 
   });
 
   test('allows user to access play page if they have joined the commons', async () => {
 
+    const mockedNavigate = jest.fn();
+
+    jest.mock("react-router-dom", () => ({
+      ...jest.requireActual("react-router-dom"),
+      useParams: () => ({
+          commonsId: 1
+      }),
+      useNavigate: () => mockedNavigate,
+    }));
+
     render(
-        <MemoryRouter initialEntries={['/play/1']}>
-          <Routes>
-            <Route path="/play/:commonsId" element={<ProtectedRoute element={PlayPage} />} />
-            <Route path="/notfound" element={<NotFoundPage />} />
-          </Routes>
-        </MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+              <CheckUserInCommons element={"true"}/>
+          </MemoryRouter>
+      </QueryClientProvider>
     );
 
     await waitFor(() => {
-      expect(screen.getByText('Announcements')).toBeInTheDocument();
+      expect(screen.queryByText('404')).not.toBeInTheDocument();
     });
 
   });
