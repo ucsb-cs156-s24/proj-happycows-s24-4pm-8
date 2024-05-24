@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-s24/proj-happycows-s24-4pm-8
 owner: ucsb-cs156-s24
 repo_name: proj-happycows-s24-4pm-8
-pull_requests: []
+pull_requests: [{"author":{"id":"MDQ6VXNlcjYxMzA2Mzkw","is_bot":false,"login":"Jumshim","name":"jeffmun"},"headRefName":"4-B2-JeffreyRemoveUsers","number":20,"title":"JM - Added API Endpoints and Tests for Suspending and Restoring Users","url":"https://github.com/ucsb-cs156-s24/proj-happycows-s24-4pm-8/pull/20"}]
