@@ -1,29 +1,14 @@
 import React from "react";
 import { useBackend } from "main/utils/useBackend";
-import { useParams, Navigate, MemoryRouter, Routes, Route } from "react-router-dom";
+import { Navigate, MemoryRouter, Routes, Route } from "react-router-dom";
 import { useCurrentUser } from "main/utils/currentUser";
 import { waitFor, render, screen } from "@testing-library/react";
 import {CheckUserInCommons, useUserInCommons} from "main/components/Commons/CheckUserInCommons";
 import PlayPage from "main/pages/PlayPage";
-import NotFoundPage from "main/pages/NotFoundPage";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { BrowserRouter as Router } from "react-router-dom";
 
 jest.mock('main/utils/currentUser');
 jest.mock('main/utils/useBackend');
-
-jest.mock('react-router-dom', () => {
-  const originalModule = jest.requireActual('react-router-dom');
-  return {
-    ...originalModule,
-    Navigate: jest.fn(({ to }) => <div>{`Redirected to ${to}`}</div>),
-  };
-});
-
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockedNavigate
-}));
 
 describe ('RouteGuard Tests', () => {
 
@@ -48,7 +33,7 @@ describe ('RouteGuard Tests', () => {
       id:1,
       lastDate:"2024-06-21T00:00:00",
       milkPrice:1,
-      name:"test",
+      name:"Test Commons",
       showChat:true,
       showLeaderboard:false,
       startingBalance:10000,
@@ -89,16 +74,11 @@ describe ('RouteGuard Tests', () => {
       }),
       useNavigate: () => mockedNavigate,
     }));
-
-    beforeEach(() => {
-      is = useUserInCommons.mockReturnValue(false); // Default mock implementation
-    });
-  
     
     render(
       <QueryClientProvider client={queryClient}>
           <MemoryRouter>
-            <CheckUserInCommons element={PlayPage}/>
+              <PlayPage />
           </MemoryRouter>
       </QueryClientProvider>
     );
@@ -126,7 +106,7 @@ describe ('RouteGuard Tests', () => {
     render(
       <QueryClientProvider client={queryClient}>
           <MemoryRouter>
-              <CheckUserInCommons element={"true"}/>
+              <PlayPage />
           </MemoryRouter>
       </QueryClientProvider>
     );
