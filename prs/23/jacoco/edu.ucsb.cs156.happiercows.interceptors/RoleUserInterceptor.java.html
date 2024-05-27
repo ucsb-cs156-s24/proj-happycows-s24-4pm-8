@@ -59,8 +59,8 @@ import edu.ucsb.cs156.happiercows.entities.User;
 <span class="fc" id="L59">                    newAuthorities.add(authority);</span>
 <span class="fc" id="L60">                });</span>
 
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">                if (user.isAdmin()){</span>
-<span class="nc" id="L63">                    newAuthorities.add(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;));</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">                if (user.isAdmin()){</span>
+<span class="fc" id="L63">                    newAuthorities.add(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;));</span>
                 }
                 
 <span class="fc" id="L66">                Authentication newAuth = new OAuth2AuthenticationToken(oAuthUser, newAuthorities,(((OAuth2AuthenticationToken)authentication).getAuthorizedClientRegistrationId()));</span>
