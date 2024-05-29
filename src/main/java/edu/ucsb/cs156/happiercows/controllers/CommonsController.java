@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Value;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -256,8 +257,12 @@ public class CommonsController extends ApiController {
         if (params.getCarryingCapacity() < 1) {
             throw new IllegalArgumentException("Carrying Capacity cannot be less than 1");
         }
-
-        Commons saved = commonsRepository.save(commons);
+        Commons saved = null;
+        try {
+            saved = commonsRepository.save(commons);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CANNOT HAVE SAME COMMON NAME");
+        }
         String body = mapper.writeValueAsString(saved);
 
         return ResponseEntity.ok().body(body);
